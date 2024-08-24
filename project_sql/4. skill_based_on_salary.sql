@@ -1,7 +1,5 @@
 -- What are the top skills based on salary
 
-
-
 SELECT
    skills,
    COUNT (job_postings_fact.job_id) AS num_jobs,
