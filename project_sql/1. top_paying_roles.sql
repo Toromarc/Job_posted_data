@@ -16,6 +16,6 @@ WHERE
    
 ORDER BY
    salary_year_avg DESC
-LIMIT 15
+LIMIT 10
 ;
 
