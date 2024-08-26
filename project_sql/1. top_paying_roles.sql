@@ -5,8 +5,7 @@ SELECT
    name AS company_name,
    job_title,
    salary_year_avg,
-   job_country,
-   EXTRACT (MONTH FROM job_posted_date) AS month_posted
+   job_country
 
 FROM job_postings_fact
 LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
@@ -17,5 +16,6 @@ WHERE
    
 ORDER BY
    salary_year_avg DESC
-LIMIT 25;
+LIMIT 15
+;
 
