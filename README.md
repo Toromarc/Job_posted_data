@@ -180,13 +180,55 @@ LIMIT 10
 | Jupyter       | $152,777       |
 | Pandas        | $151,821       |
 | Elasticsearch | $145,000       |
+##### *Table of the average salary for the top 10 paying skills for data analysts*
+### 5. What are the Most Optimal Skills to Learn?
 
-### 5. What are the most valuable skills to learn for 
+By combining our previous insights, we can identify the skills that are associated with both high salaries and strong demand.
+
+```sql
+SELECT
+   skills_dim.skills,
+   COUNT (job_postings_fact.job_id) AS num_jobs,
+   ROUND (AVG (job_postings_fact.salary_year_avg),0) AS avg_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON skills_job_dim.job_id = job_postings_fact.job_id
+INNER JOIN skills_dim ON skills_dim.skill_id = skills_job_dim.skill_id 
+WHERE
+   job_postings_fact.job_work_from_home = TRUE
+   AND job_postings_fact.job_title_short = 'Data Analyst'
+   AND job_postings_fact.salary_year_avg IS NOT NULL
+GROUP BY
+   skills_dim.skill_id
+HAVING
+   COUNT (job_postings_fact.job_id) > 10
+ORDER BY
+   avg_salary DESC,
+   num_jobs DESC
+LIMIT 15
+```
+- Python and R have the highest demand while still offering competitive salaries, indicating strong market value.
+- Azure, and AWS offer high salaries and have strong demand, making cloud expertise a solid investment.
+- Go ($115,320) and Confluence ($114,210) lead in pay, though their demand isn’t as high as other skills, making them niche yet highly rewarding expertise.
 
 
-
-### maximizing career potential?
-
+| Skills     | Number of Jobs | Average Salary |
+|------------|----------------|----------------|
+| Go         | 27             | $115,320       |
+| Confluence | 11             | $114,210       |
+| Hadoop     | 22             | $113,193       |
+| Snowflake  | 37             | $112,948       |
+| Azure      | 34             | $111,225       |
+| BigQuery   | 13             | $109,654       |
+| AWS        | 32             | $108,317       |
+| Java       | 17             | $106,906       |
+| SSIS       | 12             | $106,683       |
+| Jira       | 20             | $104,918       |
+| Oracle     | 37             | $104,534       |
+| Looker     | 49             | $103,795       |
+| NoSQL      | 13             | $101,414       |
+| Python     | 236            | $101,397       |
+| R          | 148            | $100,499       |
+##### *Table of the most optimal skills sorted by salary*
 
 # What I learned
 
