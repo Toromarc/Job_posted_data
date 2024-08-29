@@ -27,11 +27,11 @@ In this project, we aim to answer the following key questions:
 
 # The Analysis
 
-The following queries will focus on **Data Analyst** roles.
+The following queries will focus exclusively on **Data Analyst** roles.
 
 ### 1. What are the top-paying roles for Data Analysts?
 
-This query allows us to filter by company, salary, and location, identifying the highest-paid roles for Data Analysts.
+This query enables us to filter by company, salary, and location to identify the highest-paid Data Analyst positions.
 
 ```sql
 SELECT
@@ -65,7 +65,7 @@ LIMIT 10
 
 ### 2. What skills are required for these top-paying jobs?
 
-We can use the query from the question 1 and and create a CTE, which now we can use to join with the table that contains the skills
+We can use the query from question 1 to create a CTE, which we can then join with the table containing the relevant skills.
 
 
 ```sql
@@ -106,9 +106,86 @@ ORDER BY
 
 ### 3. What skills are most in demand for data analysts?
 
+We this query we will find out the top 5 demanded skills for Data Analyst roles
+
+```sql
+
+SELECT
+   skills,
+   COUNT (job_postings_fact.job_id) AS num_jobs
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+
+WHERE 
+   job_title_short = 'Data Analyst'
+   AND job_work_from_home = TRUE
+
+
+GROUP BY skills
+ORDER BY
+   num_jobs DESC
+LIMIT 5
+
+```
+- SQL is required in 7,291 job postings, making up 32.29% of the total. This underscores its critical role in data analysis.
+- Excel (20.42%) and Python (19.17%) are also highly sought after, highlighting their importance alongside SQL in data analyst roles.
+
+
+| Skills    | Number of Jobs |
+|-----------|----------------|
+| SQL       | 7,291          |
+| Excel     | 4,611          |
+| Python    | 4,330          |
+| Tableau   | 3,745          |
+| Power BI  | 2,609          |
+##### *Table of the demand for the top 5 skills in data analyst job postings*
+
 
 ### 4. Which skills are associated with higher salaries?
-### 5. What are the most valuable skills to learn for maximizing career potential?
+
+Let´s explore what are skills with the highest average salaries
+
+```sql
+SELECT
+   skills,
+   ROUND (AVG(salary_year_avg), 0)AS average_salary
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+
+WHERE
+   salary_year_avg IS NOT NULL
+   AND job_title_short = 'Data Analyst'
+   AND job_work_from_home = TRUE
+
+GROUP BY skills
+ORDER BY
+   average_salary DESC
+LIMIT 10
+```
+- PySpark leads with $208,172, highlighting the value of big data expertise.
+- itbucket and GitLab skills fetch high salaries, emphasizing the importance of DevOps and version control.
+- Jupyter, Pandas, and Elasticsearch skills are well-compensated, reflecting their importance in data science.
+
+| Skills        | Average Salary |
+|---------------|----------------|
+| PySpark       | $208,172       |
+| Bitbucket     | $189,155       |
+| Watson        | $160,515       |
+| Couchbase     | $160,515       |
+| DataRobot     | $155,486       |
+| GitLab        | $154,500       |
+| Swift         | $153,750       |
+| Jupyter       | $152,777       |
+| Pandas        | $151,821       |
+| Elasticsearch | $145,000       |
+
+### 5. What are the most valuable skills to learn for 
+
+
+
+### maximizing career potential?
 
 
 # What I learned
